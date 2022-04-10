@@ -1,23 +1,13 @@
 import { StrictMode, Suspense } from 'react'
 import ReactDOM from 'react-dom'
-import { i18n, consoleFilter } from 'config'
-import { Loader } from 'shared/components'
-import App from './app'
-import reportWebVitals from './reportWebVitals'
-
-i18n.init()
-consoleFilter.init()
+import App from './App'
+import { Spinner } from 'react-bootstrap'
 
 ReactDOM.render(
   <StrictMode>
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Spinner animation="border" variant="primary" />}>
       <App />
     </Suspense>
   </StrictMode>,
   document.getElementById('root')
 )
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals()

@@ -1,30 +1,26 @@
-import { useCallback, useEffect } from 'react'
+import { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { SignInActionPayload } from '../store/auth'
-import { actions, selectors } from '../store'
+import { LoginParams } from 'shared/services'
+import {
+  actions as commonActions,
+  selectors as commonSelectors,
+} from '../store'
 
 export const useAuth = () => {
   const dispatch = useDispatch()
-  const data = useSelector(selectors.auth.getAuth)
-  const isAuthenticated = !!data.user
+  const signIn = ({ email, password }: LoginParams) =>
+    dispatch(
+      commonActions.auth.loginUser({
+        email,
+        password,
+      })
+    )
 
-  const signIn = useCallback(
-    (payload: SignInActionPayload) => dispatch(actions.auth.signIn(payload)),
-    [dispatch]
-  )
-
-  const signOut = useCallback(
-    () => dispatch(actions.auth.signOut()),
-    [dispatch]
-  )
-
-  return { ...data, isAuthenticated, signIn, signOut }
-}
-
-export const useCurrentUser = () => {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(actions.auth.getCurrentUser())
-  }, [dispatch])
+  const data = useSelector(commonSelectors.auth.getUser)
+  const isAuthenticated = useMemo(() => !!data.data, [data.data])
+  return {
+    data,
+    isAuthenticated,
+    signIn,
+  }
 }

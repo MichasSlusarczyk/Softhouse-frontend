@@ -1,19 +1,17 @@
-import { paths } from 'config'
-import { Loadable } from 'shared/components'
-import { ModuleRoute } from 'shared/types'
+import paths from 'config/paths'
+import Loadable from 'shared/components'
+import { ModalRoute } from 'shared/types'
 
-const routes: ModuleRoute[] = [
+const routes: ModalRoute[] = [
   {
-    path: paths.signIn,
-    exact: true,
-    public: true,
-    layoutSettings: {
-      drawerProps: { hidden: true },
-      topbarProps: { hidden: true },
-    },
-    component: Loadable({
-      component: () => import('./pages/Login'),
+    path: paths.loginIn,
+    element: Loadable({
+      component: () => import('./pages/Login/Login'),
     }),
+  },
+  {
+    path: paths.loggedIn,
+    element: Loadable({ component: () => import('./pages/Temporary') }),
   },
 ]
 

@@ -1,6 +1,6 @@
-const paths = <const>{
-  dashboard: '/requests',
-  signIn: '/sign-in',
+const paths = {
+  loginIn: '/login-in',
+  loggedIn: '/temp',
 }
 
 export default paths

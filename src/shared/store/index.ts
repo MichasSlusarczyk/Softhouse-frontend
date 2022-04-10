@@ -1,5 +1,11 @@
 import { combineReducers } from 'redux'
-import auth from './auth'
+import auth, { State as AuthState } from './auth'
+
+export interface CommonState {
+  common: {
+    auth: AuthState
+  }
+}
 
 export const actions = {
   auth: auth.actions,

@@ -1,48 +1,71 @@
-import { Grid, Typography, Container, Button } from '@material-ui/core'
-import { useTranslation } from 'react-i18next'
-import { Form, TextField } from 'shared/components'
-import { MODULE_NAME } from '../../strings'
-import { LoginFormFields, useFormProps } from './LoginForm.utils'
+import { useState } from 'react'
+import { Button, Col, Container, Form, Row } from 'react-bootstrap'
+import { StyledForm } from './LoginForm.styles'
+import { useAuth } from 'shared/hooks'
 
-interface LoginProps {}
+const LoginForm = () => {
+  const [validated, setValidated] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const { signIn, isAuthenticated } = useAuth()
+  console.log(isAuthenticated)
 
-const LoginForm = ({ ...props }: LoginProps) => {
-  const { t } = useTranslation(MODULE_NAME)
-  const formProps = useFormProps()
+  const handleSubmit = event => {
+    const form = event.currentTarget
+    if (form.checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+    } else {
+      signIn({ email, password })
+    }
+    setValidated(true)
+  }
   return (
-    <Container maxWidth="xs">
-      <Form {...formProps}>
-        <Grid container spacing={5}>
-          <Grid item xs={12}>
-            <Typography variant="h5" align="center">
-              {t('login.title')}
-            </Typography>
-          </Grid>
-          <Grid item container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                name={LoginFormFields.Email}
-                label={t('login.email')}
-                type="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                name={LoginFormFields.Password}
-                label={t('login.password')}
-                type="password"
-              />
-            </Grid>
-          </Grid>
-          <Grid container item xs={12} justifyContent="center">
-            <Button type="submit" variant="contained" color="primary">
-              {t('login.submit')}
-            </Button>
-          </Grid>
-        </Grid>
-      </Form>
-    </Container>
+    <>
+      <StyledForm noValidate validated={validated} onSubmit={handleSubmit}>
+        <Container fluid>
+          <Row>
+            <Col>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  required
+                  onChange={e => setEmail(e.target.value)}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please enter a email.
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  required
+                  onChange={e => setPassword(e.target.value)}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please enter a password.
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col className={'d-flex justify-content-center'}>
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </Col>
+          </Row>
+        </Container>
+      </StyledForm>
+    </>
   )
 }
-
 export default LoginForm

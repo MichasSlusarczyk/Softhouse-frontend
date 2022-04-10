@@ -1,22 +1,11 @@
-import {
-  configureStore,
-  combineReducers,
-  getDefaultMiddleware,
-} from '@reduxjs/toolkit'
-import { persistStore } from 'redux-persist'
-import { reducer as common } from 'shared/store'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { reducers } from 'modules'
+import { reducer as common } from 'shared/store'
 
-export const store = configureStore({
+const store = configureStore({
   reducer: combineReducers({ ...reducers, common }),
-  middleware: getDefaultMiddleware({
-    // Turned off due to redux-persist usage
-    serializableCheck: false,
-  }),
 })
 
-export const persistor = persistStore(store)
+export default store
 
 export type RootState = ReturnType<typeof store.getState>
-
-export default store
