@@ -4,3 +4,10 @@ export enum LoadingStatus {
   Succeeded = 'succeeded',
   Failed = 'failed',
 }
+
+export enum UserRole {
+  Admin = 'ADMIN',
+  ProductManager = 'PRODUCT_MANAGER',
+  AccountManager = 'ACCOUNT_MANAGER',
+  Worker = 'WORKER',
+}

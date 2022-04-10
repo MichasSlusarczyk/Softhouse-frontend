@@ -1,24 +1,12 @@
-import { SvgIconComponent } from '@material-ui/icons'
 import { RouteProps } from 'react-router-dom'
-import { DrawerProps, TopbarProps } from 'shared/components'
+import { UserRole } from './enums'
 
-export interface LayoutSettings {
-  label?: string
-  icon?: SvgIconComponent
-  drawerProps?: Partial<DrawerProps>
-  topbarProps?: Partial<TopbarProps>
+export interface ModalRoute extends RouteProps {
+  allowedRoles?: UserRole[]
 }
 
-export interface ModuleRoute extends RouteProps {
-  path: string
-  layoutSettings?: LayoutSettings
-  public?: boolean
-}
-
-export interface Module<Name, Reducer> {
-  name: Name
-  routes: ModuleRoute[]
+export interface Module<Reducer> {
+  name: string
   reducer: Reducer
+  routes: ModalRoute[]
 }
-
-export type ValueOf<T> = T[keyof T]

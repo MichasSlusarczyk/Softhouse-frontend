@@ -1,3 +1,3 @@
-import type { RootState } from 'app'
+import { RootState } from 'App'
 
-export const getAuth = (state: RootState) => state.common.auth
+export const getUser = (state: RootState) => state.common.auth.user
